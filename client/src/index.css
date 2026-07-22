@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  @apply bg-[#F5F6F8] text-ink-900 font-sans antialiased;
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: #D8DEE7; border-radius: 8px; }
+
+.leaflet-container {
+  font-family: inherit;
+  background: #DCEBF7;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 10px;
+}
+
+:focus-visible {
+  outline: 2px solid #F5A623;
+  outline-offset: 2px;
+}
