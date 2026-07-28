@@ -6,7 +6,7 @@
      "node": "22.x"
    },
   "scripts": {
-    "build": "npm install --prefix client && npm run build --prefix client && npm install --prefix server",
+    "build": "cd client && npm install && VITE_API_URL= npm run build && cd ../server && npm install",
     "start": "npm start --prefix server"
   }
 }
