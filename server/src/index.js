@@ -1,4 +1,6 @@
 require('dotenv').config();
+const path = require('path');
+const fs = require('fs');
 const http = require('http');
 const express = require('express');
 const cors = require('cors');
@@ -33,6 +35,20 @@ app.use('/api/tracking', trackingRoutes);
 app.use('/api/drivers', driverRoutes);
 app.use('/api/maintenance', maintenanceRoutes);
 app.use('/api/settings', settingsRoutes);
+
+const clientDist = path.join(__dirname, '..', '..', 'client', 'dist');
+if (fs.existsSync(clientDist)) {
+  app.use(express.static(clientDist));
+  app.get(/^(?!\/api).*/, (req, res) => {
+    res.sendFile(path.join(clientDist, 'index.html'));
+  });
+} else {
+  app.get('/', (req, res) => {
+    res.type('text/plain').send(
+      'MantaTrack API activa. No se encontró client/dist — corre "npm run build" en client/ para servir el frontend desde aquí.'
+    );
+  });
+}
 
 io.on('connection', (socket) => {
   socket.on('disconnect', () => {});
