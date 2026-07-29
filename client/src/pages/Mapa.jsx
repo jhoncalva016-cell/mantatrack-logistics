@@ -45,7 +45,10 @@ export default function Mapa() {
                 className="w-full text-left bg-white rounded-xl2 shadow-card p-3.5 hover:ring-1 hover:ring-amber-500/40 transition-shadow"
               >
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-semibold text-ink-900">{t.code}</p>
+                  <div>
+                    <p className="text-sm font-semibold text-ink-900">{t.plate || t.code}</p>
+                    <p className="text-xs text-ink-900/40">{t.code}</p>
+                  </div>
                   <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${meta.bg} ${meta.text}`}>{meta.label}</span>
                 </div>
                 <p className="text-xs text-ink-900/50 mt-1">{t.driver}</p>
