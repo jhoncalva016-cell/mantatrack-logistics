@@ -116,8 +116,9 @@ export default function Conductores() {
             </thead>
             <tbody>
               {drivers.map((d) => {
+                const currentTruck = trucks.find((t) => t.id === d.truckId);
                 const options = d.truckId
-                  ? [{ id: d.truckId, code: d.truckCode }, ...unassignedTrucks]
+                  ? [currentTruck || { id: d.truckId, code: d.truckCode, plate: null }, ...unassignedTrucks]
                   : unassignedTrucks;
                 return (
                   <tr key={d.id} className="border-b border-black/5 last:border-0 hover:bg-black/[0.02]">
