@@ -29,7 +29,10 @@ export default function FleetTable({ trucks, onSelect, selectedId }) {
                     selectedId === t.id ? 'bg-amber-50' : 'hover:bg-black/[0.02]'
                   }`}
                 >
-                  <td className="px-5 py-3 font-semibold text-ink-900">{t.code}</td>
+                  <td className="px-5 py-3">
+                    <p className="font-semibold text-ink-900">{t.plate || t.code}</p>
+                    <p className="text-xs text-ink-900/40">{t.code}</p>
+                  </td>
                   <td className="px-5 py-3 text-ink-900/70">{t.driver}</td>
                   <td className="px-5 py-3 text-ink-900/70">{t.destination || '—'}</td>
                   <td className="px-5 py-3 text-ink-900/70">{t.eta || '—'}</td>
