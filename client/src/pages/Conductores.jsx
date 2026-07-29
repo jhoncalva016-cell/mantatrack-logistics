@@ -133,7 +133,7 @@ export default function Conductores() {
                       >
                         <option value="">Sin asignar</option>
                         {options.map((t) => (
-                          <option key={t.id} value={t.id}>{t.code}</option>
+                          <option key={t.id} value={t.id}>{t.plate || t.code} — {t.code}</option>
                         ))}
                       </select>
                     </td>
