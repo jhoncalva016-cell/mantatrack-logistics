@@ -12,6 +12,7 @@ router.get('/', (req, res) => {
     const truck = trucks.find((t) => t.driver_id === d.id);
     return {
       id: d.id, name: d.name, phone: d.phone,
+      truckId: truck ? truck.id : null,
       truckCode: truck ? truck.code : null,
       truckStatus: truck ? truck.status : null,
     };
@@ -23,7 +24,7 @@ router.post('/', (req, res) => {
   if (!name) return res.status(400).json({ error: 'El nombre del conductor es requerido.' });
   const id = db.prepare('INSERT INTO drivers (company_id, name, phone) VALUES (?, ?, ?)')
     .run(req.user.companyId, name, phone || null).lastInsertRowid;
-  res.status(201).json({ id, name, phone, truckCode: null, truckStatus: null });
+  res.status(201).json({ id, name, phone, truckId: null, truckCode: null, truckStatus: null });
 });
 
 router.delete('/:id', (req, res) => {
