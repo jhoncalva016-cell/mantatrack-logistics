@@ -4,15 +4,21 @@ import { statusMeta } from '../lib/status';
 
 export default function Conductores() {
   const [drivers, setDrivers] = useState([]);
+  const [trucks, setTrucks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ name: '', phone: '' });
   const [saving, setSaving] = useState(false);
+  const [assigning, setAssigning] = useState(null);
 
   const load = useCallback(async () => {
     setLoading(true);
-    const { data } = await api.get('/drivers');
-    setDrivers(data);
+    const [{ data: d }, { data: t }] = await Promise.all([
+      api.get('/drivers'),
+      api.get('/trucks'),
+    ]);
+    setDrivers(d);
+    setTrucks(t);
     setLoading(false);
   }, []);
 
@@ -36,6 +42,32 @@ export default function Conductores() {
     setDrivers((prev) => prev.filter((d) => d.id !== id));
     await api.delete(`/drivers/${id}`);
   }
+
+  async function assignTruck(driver, truckId) {
+    setAssigning(driver.id);
+    try {
+      // Si el camión elegido ya tenía otro conductor, lo liberamos primero
+      if (truckId) {
+        const truck = trucks.find((t) => String(t.id) === String(truckId));
+        if (truck && truck.driver !== '—') {
+          const prevDriver = drivers.find((d) => d.truckId === truck.id);
+          if (prevDriver) await api.patch(`/trucks/${truck.id}`, { driverId: null });
+        }
+      }
+      // Si este conductor ya tenía un camión distinto, lo liberamos
+      if (driver.truckId && String(driver.truckId) !== String(truckId)) {
+        await api.patch(`/trucks/${driver.truckId}`, { driverId: null });
+      }
+      if (truckId) {
+        await api.patch(`/trucks/${truckId}`, { driverId: driver.id });
+      }
+      await load();
+    } finally {
+      setAssigning(null);
+    }
+  }
+
+  const unassignedTrucks = trucks.filter((t) => t.driver === '—');
 
   return (
     <div className="max-w-[1400px] mx-auto px-6 py-6">
@@ -83,24 +115,41 @@ export default function Conductores() {
               </tr>
             </thead>
             <tbody>
-              {drivers.map((d) => (
-                <tr key={d.id} className="border-b border-black/5 last:border-0 hover:bg-black/[0.02]">
-                  <td className="px-5 py-3 font-semibold text-ink-900">{d.name}</td>
-                  <td className="px-5 py-3 text-ink-900/70">{d.phone || '—'}</td>
-                  <td className="px-5 py-3 text-ink-900/70">{d.truckCode || 'Sin asignar'}</td>
-                  <td className="px-5 py-3">
-                    {d.truckStatus ? (
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${statusMeta(d.truckStatus).bg} ${statusMeta(d.truckStatus).text}`}>
-                        <span className="w-1.5 h-1.5 rounded-full" style={{ background: statusMeta(d.truckStatus).dot }} />
-                        {statusMeta(d.truckStatus).label}
-                      </span>
-                    ) : <span className="text-ink-900/30 text-xs">—</span>}
-                  </td>
-                  <td className="px-5 py-3 text-right">
-                    <button onClick={() => handleDelete(d.id)} className="text-xs text-ink-900/40 hover:text-alertred">Eliminar</button>
-                  </td>
-                </tr>
-              ))}
+              {drivers.map((d) => {
+                const options = d.truckId
+                  ? [{ id: d.truckId, code: d.truckCode }, ...unassignedTrucks]
+                  : unassignedTrucks;
+                return (
+                  <tr key={d.id} className="border-b border-black/5 last:border-0 hover:bg-black/[0.02]">
+                    <td className="px-5 py-3 font-semibold text-ink-900">{d.name}</td>
+                    <td className="px-5 py-3 text-ink-900/70">{d.phone || '—'}</td>
+                    <td className="px-5 py-3">
+                      <select
+                        value={d.truckId || ''}
+                        disabled={assigning === d.id}
+                        onChange={(e) => assignTruck(d, e.target.value || null)}
+                        className="rounded-lg border border-black/10 px-2.5 py-1.5 text-sm bg-white disabled:opacity-50"
+                      >
+                        <option value="">Sin asignar</option>
+                        {options.map((t) => (
+                          <option key={t.id} value={t.id}>{t.code}</option>
+                        ))}
+                      </select>
+                    </td>
+                    <td className="px-5 py-3">
+                      {d.truckStatus ? (
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${statusMeta(d.truckStatus).bg} ${statusMeta(d.truckStatus).text}`}>
+                          <span className="w-1.5 h-1.5 rounded-full" style={{ background: statusMeta(d.truckStatus).dot }} />
+                          {statusMeta(d.truckStatus).label}
+                        </span>
+                      ) : <span className="text-ink-900/30 text-xs">—</span>}
+                    </td>
+                    <td className="px-5 py-3 text-right">
+                      <button onClick={() => handleDelete(d.id)} className="text-xs text-ink-900/40 hover:text-alertred">Eliminar</button>
+                    </td>
+                  </tr>
+                );
+              })}
               {!loading && !drivers.length && (
                 <tr><td colSpan={5} className="px-5 py-8 text-center text-ink-900/40">Aún no has registrado conductores.</td></tr>
               )}
