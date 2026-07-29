@@ -43,7 +43,8 @@ export default function MapView({ trucks, center, height = 460, focusTruckId = n
           <Marker key={t.id} position={[t.lat, t.lng]} icon={truckIcon(t.status)}>
             <Popup>
               <div className="text-sm">
-                <p className="font-semibold">{t.code}</p>
+                <p className="font-semibold">{t.plate || t.code}</p>
+                <p className="text-ink-900/40 text-xs">{t.code}</p>
                 <p className="text-ink-900/60">{statusMeta(t.status).label}</p>
                 {t.destination && <p className="text-ink-900/60">Destino: {t.destination}</p>}
                 {typeof t.speedKmh === 'number' && <p className="text-ink-900/60">{t.speedKmh} km/h</p>}
