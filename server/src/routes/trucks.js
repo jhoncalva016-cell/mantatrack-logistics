@@ -123,6 +123,10 @@ router.patch('/:id', (req, res) => {
       values.push(req.body[f]);
     }
   }
+  if (req.body.driverId !== undefined) {
+    updates.push('driver_id = ?');
+    values.push(req.body.driverId || null);
+  }
   if (updates.length) {
     values.push(t.id);
     db.prepare(`UPDATE trucks SET ${updates.join(', ')}, updated_at = CURRENT_TIMESTAMP WHERE id = ?`).run(...values);
