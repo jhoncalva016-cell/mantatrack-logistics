@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Logo from '../components/Logo';
 
 export default function Login() {
   const { login } = useAuth();
@@ -32,14 +33,7 @@ export default function Login() {
       }} />
       <div className="relative w-full max-w-md">
         <div className="flex items-center gap-2.5 justify-center mb-8">
-          <span className="w-11 h-11 rounded-full bg-amber-500 flex items-center justify-center text-white">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M3 16V6a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M14 9h4l3 3v4h-7V9Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              <circle cx="7" cy="17" r="2" stroke="currentColor" strokeWidth="2" />
-              <circle cx="18" cy="17" r="2" stroke="currentColor" strokeWidth="2" />
-            </svg>
-          </span>
+          <Logo size={44} />
           <div className="leading-tight text-white">
             <p className="font-display font-bold text-lg tracking-tight">CALGUY TRACK</p>
             <p className="text-[11px] tracking-[0.2em] text-white/50 -mt-0.5">LOGISTICS</p>
