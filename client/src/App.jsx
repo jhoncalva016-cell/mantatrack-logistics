@@ -12,6 +12,7 @@ import Reportes from './pages/Reportes';
 import Conductores from './pages/Conductores';
 import Mantenimiento from './pages/Mantenimiento';
 import Configuracion from './pages/Configuracion';
+import Planes from './pages/Planes';
 import Tracking from './pages/Tracking';
 
 export default function App() {
