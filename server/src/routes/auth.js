@@ -39,7 +39,7 @@ router.post('/register', (req, res) => {
   if (existing) return res.status(409).json({ error: 'Ya existe una cuenta con ese correo.' });
 
   const companyId = db.prepare('INSERT INTO companies (name, city) VALUES (?, ?)')
-    .run(companyName, 'Manta, Manabí').lastInsertRowid;
+    .run(companyName, 'Quito, Pichincha').lastInsertRowid;
 
   const passwordHash = bcrypt.hashSync(password, 10);
   const userId = db.prepare(`INSERT INTO users (company_id, name, email, password_hash, role)
@@ -49,7 +49,7 @@ router.post('/register', (req, res) => {
   res.status(201).json({
     token,
     user: { id: userId, name, email, role: 'admin' },
-    company: { id: companyId, name: companyName, city: 'Manta, Manabí' },
+    company: { id: companyId, name: companyName, city: 'Quito, Pichincha' },
   });
 });
 
