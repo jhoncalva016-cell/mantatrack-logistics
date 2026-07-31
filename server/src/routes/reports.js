@@ -44,7 +44,7 @@ router.post('/generate', (req, res) => {
   doc.pipe(res);
 
   doc.fillColor('#F5A623').rect(50, 45, 8, 24).fill();
-  doc.fillColor('#1F2937').fontSize(20).text('MantaTrack Logistics', 68, 45);
+  doc.fillColor('#1F2937').fontSize(20).text('CalGuy Track Logistics', 68, 45);
   doc.fillColor('#6B7280').fontSize(10).text(company.name, 68, 68);
 
   doc.moveDown(2);
@@ -83,7 +83,7 @@ router.post('/generate', (req, res) => {
   }
 
   doc.moveDown(2);
-  doc.fontSize(8).fillColor('#9CA3AF').text('© 2026 MantaTrack Logistics. Todos los derechos reservados.', { align: 'center' });
+  doc.fontSize(8).fillColor('#9CA3AF').text('© 2026 CalGuy Track Logistics. Todos los derechos reservados.', { align: 'center' });
 
   doc.end();
 });
