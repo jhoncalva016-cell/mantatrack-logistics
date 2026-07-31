@@ -27,6 +27,6 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid #F5A623;
+  outline: 2px solid #0B5FFF;
   outline-offset: 2px;
 }
