@@ -20,7 +20,7 @@ export default function Mapa() {
       <div className="flex items-center justify-between mb-5">
         <div>
           <h1 className="text-xl font-display font-bold text-ink-900">Mapa en tiempo real</h1>
-          <p className="text-sm text-ink-900/50 mt-0.5">Manta, Manabí — ubicación de cada camión, actualizada en vivo.</p>
+          <p className="text-sm text-ink-900/50 mt-0.5">Quito, Pichincha — ubicación de cada camión, actualizada en vivo.</p>
         </div>
         <input
           value={query}
