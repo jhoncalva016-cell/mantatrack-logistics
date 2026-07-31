@@ -22,7 +22,7 @@ function truckIcon(status) {
 }
 
 export default function MapView({ trucks, center, height = 460, focusTruckId = null, trail = null }) {
-  const mapCenter = center || { lat: -0.9677, lng: -80.7089 };
+  const mapCenter = center || { lat: -0.1807, lng: -78.4678 };
 
   return (
     <div style={{ height }} className="rounded-xl2 overflow-hidden border border-black/5">
