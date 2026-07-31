@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/client';
+import Logo from './Logo';
 
 const LINKS = [
   { to: '/flota', label: 'Inicio', icon: HomeIcon },
@@ -24,14 +25,12 @@ export default function Sidebar() {
   }, []);
 
   return (
-    <aside className="w-64 shrink-0 h-screen sticky top-0 bg-white border-r border-black/5 flex flex-col">
-      <div className="h-16 flex items-center gap-2.5 px-5 border-b border-black/5 shrink-0">
-        <span className="w-9 h-9 rounded-full bg-amber-500 flex items-center justify-center text-white">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 16V6a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /><path d="M14 9h4l3 3v4h-7V9Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-        </span>
+    <aside className="w-64 shrink-0 h-screen sticky top-0 bg-ink-900 border-r border-white/5 flex flex-col">
+      <div className="h-16 flex items-center gap-2.5 px-5 border-b border-white/10 shrink-0">
+        <Logo size={32} />
         <div className="leading-tight">
-          <p className="font-display font-bold text-[14px] tracking-tight text-ink-900">CALGUY TRACK</p>
-          <p className="text-[9px] tracking-[0.18em] text-ink-900/50 -mt-0.5">LOGISTICS</p>
+          <p className="font-display font-bold text-[14px] tracking-tight text-white">CALGUY TRACK</p>
+          <p className="text-[9px] tracking-[0.18em] text-white/50 -mt-0.5">LOGISTICS</p>
         </div>
       </div>
 
@@ -43,7 +42,7 @@ export default function Sidebar() {
             end={l.to === '/mapa'}
             className={({ isActive }) =>
               `flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                isActive ? 'bg-amber-50 text-ink-900' : 'text-ink-900/55 hover:text-ink-900 hover:bg-black/[0.03]'
+                isActive ? 'bg-amber-500/15 text-white' : 'text-white/55 hover:text-white hover:bg-white/5'
               }`
             }
           >
@@ -53,9 +52,9 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      <div className="p-3 border-t border-black/5 space-y-3">
+      <div className="p-3 border-t border-white/10 space-y-3">
         {plan && (
-          <div className="bg-ink-900 rounded-xl2 p-3.5 text-white">
+          <div className="bg-white/5 border border-white/10 rounded-xl2 p-3.5 text-white">
             <p className="text-xs font-semibold">{plan.planName}</p>
             <p className="text-[11px] text-white/50 mt-0.5">Vence el {plan.planRenewsAt}</p>
             <div className="mt-2.5">
@@ -73,14 +72,14 @@ export default function Sidebar() {
         )}
 
         <div className="flex items-center gap-2.5 px-1">
-          <div className="w-8 h-8 rounded-full bg-ink-900 text-white flex items-center justify-center text-xs font-semibold shrink-0">
+          <div className="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center text-xs font-semibold shrink-0">
             {(user?.name || 'A').slice(0, 1).toUpperCase()}
           </div>
           <div className="min-w-0 flex-1">
-            <p className="text-xs font-semibold text-ink-900 truncate">{company?.name}</p>
-            <p className="text-[11px] text-ink-900/40 truncate">{user?.name}</p>
+            <p className="text-xs font-semibold text-white truncate">{company?.name}</p>
+            <p className="text-[11px] text-white/40 truncate">{user?.name}</p>
           </div>
-          <button onClick={logout} title="Cerrar sesión" className="text-ink-900/40 hover:text-alertred shrink-0">
+          <button onClick={logout} title="Cerrar sesión" className="text-white/40 hover:text-alertred shrink-0">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /><path d="M16 17l5-5-5-5M21 12H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </button>
         </div>
