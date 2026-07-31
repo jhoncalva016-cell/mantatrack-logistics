@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../api/client';
 import MapView from '../components/MapView';
+import Logo from '../components/Logo';
 import { statusMeta } from '../lib/status';
 
 export default function Tracking() {
@@ -29,9 +30,7 @@ export default function Tracking() {
     <div className="min-h-screen bg-[#F5F6F8]">
       <header className="bg-white border-b border-black/5">
         <div className="max-w-2xl mx-auto px-6 h-16 flex items-center gap-2.5">
-          <span className="w-9 h-9 rounded-full bg-amber-500 flex items-center justify-center text-white">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 16V6a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /><path d="M14 9h4l3 3v4h-7V9Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-          </span>
+          <Logo size={36} />
           <div className="leading-tight">
             <p className="font-display font-bold text-[15px] text-ink-900">CALGUY TRACK</p>
             <p className="text-[10px] tracking-[0.18em] text-ink-900/50 -mt-0.5">LOGISTICS</p>
