@@ -18,9 +18,11 @@ CREATE TABLE IF NOT EXISTS companies (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
   city TEXT DEFAULT 'Manta, Ecuador',
+  plan_key TEXT DEFAULT 'profesional',
   plan_name TEXT DEFAULT 'Plan Profesional',
   plan_renews_at TEXT DEFAULT '2026-08-15',
   plan_usage_pct INTEGER DEFAULT 75,
+  plan_max_vehicles INTEGER DEFAULT 20,
   created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
 
