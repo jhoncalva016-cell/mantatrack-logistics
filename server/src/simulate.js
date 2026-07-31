@@ -70,7 +70,7 @@ function tick(io) {
       updateStmt.run(to.lat, to.lng, idx, dir, 0, fuel, 'entregado', null, t.id);
       const driver = t.driver_id ? db.prepare('SELECT name FROM drivers WHERE id=?').get(t.driver_id) : null;
       insertHist.run(
-        t.id, new Date().toISOString().slice(0, 10), 'Manta', DESTS[t.route_key] || t.destination,
+        t.id, new Date().toISOString().slice(0, 10), 'Quito', DESTS[t.route_key] || t.destination,
         Math.round(20 + Math.random() * 30), Math.round(40 + Math.random() * 40),
         Number((4 + Math.random() * 6).toFixed(1)), driver ? driver.name : 'N/D'
       );
