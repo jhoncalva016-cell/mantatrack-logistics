@@ -7,8 +7,9 @@ import Logo from './Logo';
 const LINKS = [
   { to: '/flota', label: 'Inicio', icon: HomeIcon },
   { to: '/mapa', label: 'Mapa en tiempo real', icon: MapIcon },
+  { to: '/lista-flota', label: 'Flota', icon: TruckIcon },
   { to: '/rutas', label: 'Rutas', icon: RouteIcon },
-  { to: '/alertas', label: 'Alertas', icon: BellIcon },
+  { to: '/alertas', label: 'Alertas', icon: BellIcon, badgeKey: 'activeAlerts' },
   { to: '/historial', label: 'Historial', icon: ClockIcon },
   { to: '/reportes', label: 'Reportes', icon: FileIcon },
   { to: '/conductores', label: 'Conductores', icon: UserIcon },
@@ -19,9 +20,11 @@ const LINKS = [
 export default function Sidebar() {
   const { user, company, logout } = useAuth();
   const [plan, setPlan] = useState(null);
+  const [activeAlerts, setActiveAlerts] = useState(0);
 
   useEffect(() => {
     api.get('/settings').then(({ data }) => setPlan(data.company)).catch(() => {});
+    api.get('/trucks/summary').then(({ data }) => setActiveAlerts(data.activeAlerts || 0)).catch(() => {});
   }, []);
 
   return (
@@ -30,7 +33,7 @@ export default function Sidebar() {
         <Logo size={32} />
         <div className="leading-tight">
           <p className="font-display font-bold text-[14px] tracking-tight text-white">CALGUY TRACK</p>
-          <p className="text-[9px] tracking-[0.18em] text-white/50 -mt-0.5">LOGISTICS</p>
+          <p className="text-[9px] tracking-[0.18em] text-amber-500 -mt-0.5">LOGISTICS</p>
         </div>
       </div>
 
@@ -41,13 +44,18 @@ export default function Sidebar() {
             to={l.to}
             end={l.to === '/mapa'}
             className={({ isActive }) =>
-              `flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                isActive ? 'bg-amber-500 text-white shadow-[0_2px_10px_rgba(11,95,255,0.35)]' : 'text-white/55 hover:text-white hover:bg-white/5'
+              `relative flex items-center gap-2.5 px-3 py-2.5 rounded-xl2 text-sm font-medium transition-colors ${
+                isActive ? 'bg-amber-500/20 text-white' : 'text-white/55 hover:text-white hover:bg-white/5'
               }`
             }
           >
             <l.icon />
-            {l.label}
+            <span className="flex-1">{l.label}</span>
+            {l.badgeKey === 'activeAlerts' && activeAlerts > 0 && (
+              <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-alertred text-white text-[10px] font-bold flex items-center justify-center">
+                {activeAlerts}
+              </span>
+            )}
           </NavLink>
         ))}
       </nav>
@@ -56,7 +64,7 @@ export default function Sidebar() {
         {plan && (
           <div className="bg-white/5 border border-white/10 rounded-xl2 p-3.5 text-white">
             <div className="flex items-center gap-1.5">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="#0B5FFF"><path d="M5 8 2 6l1.5 8h17L22 6l-3 2-4-5-3 4-3-4-4 5Z" /></svg>
+              <CrownIcon />
               <p className="text-xs font-semibold">{plan.planName}</p>
             </div>
             <p className="text-[11px] text-white/50 mt-0.5">Vence el {plan.planRenewsAt}</p>
@@ -85,6 +93,11 @@ export default function Sidebar() {
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /><path d="M16 17l5-5-5-5M21 12H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </button>
         </div>
+
+        <div className="pt-2 border-t border-white/10 text-center">
+          <p className="text-[10px] text-white/30">© 2026 CalGuy Track Logistics</p>
+          <p className="text-[10px] text-white/30">Todos los derechos reservados.</p>
+        </div>
       </div>
     </aside>
   );
@@ -92,6 +105,7 @@ export default function Sidebar() {
 
 function HomeIcon() { return <Svg d="M3 11.5 12 4l9 7.5M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9" />; }
 function MapIcon() { return <Svg d="M9 20 3 17V5l6 3m0 12 6-3m-6 3V8m6 9 6 3V10l-6-3m0 12V5m0 0L9 8" />; }
+function TruckIcon() { return <Svg d="M3 16V6a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v10M3 16h1m9 0h4m-5 0V9h4l3 3v4h-2M6.5 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm11 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />; }
 function RouteIcon() { return <Svg d="M5 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm14-14a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM7 17c6 0 4-10 10-10" />; }
 function BellIcon() { return <Svg d="M6 8a6 6 0 0 1 12 0c0 4 1.5 5.5 1.5 5.5H4.5S6 12 6 8Zm3.5 8a2.5 2.5 0 0 0 5 0" />; }
 function ClockIcon() { return <Svg d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0-14v5l3.5 2" />; }
@@ -99,6 +113,7 @@ function FileIcon() { return <Svg d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2
 function UserIcon() { return <Svg d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 9a7 7 0 0 1 14 0" />; }
 function WrenchIcon() { return <Svg d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 1 5.4-5.4L21 6l-3-3-3.3 3.3Z" />; }
 function GearIcon() { return <Svg d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm8-3a8 8 0 0 0-.2-1.7l2-1.6-2-3.4-2.4 1a8 8 0 0 0-2.9-1.7L14 2h-4l-.5 2.6a8 8 0 0 0-2.9 1.7l-2.4-1-2 3.4 2 1.6A8 8 0 0 0 4 12c0 .6.1 1.2.2 1.7l-2 1.6 2 3.4 2.4-1a8 8 0 0 0 2.9 1.7L10 22h4l.5-2.6a8 8 0 0 0 2.9-1.7l2.4 1 2-3.4-2-1.6c.1-.5.2-1.1.2-1.7Z" />; }
+function CrownIcon() { return <svg width="14" height="14" viewBox="0 0 24 24" fill="#0B5FFF"><path d="M5 8 2 6l1.5 8h17L22 6l-3 2-4-5-3 4-3-4-4 5Z" /></svg>; }
 
 function PlanRing({ pct = 0 }) {
   const r = 20;
