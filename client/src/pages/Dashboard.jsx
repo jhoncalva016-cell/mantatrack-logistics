@@ -118,7 +118,7 @@ export default function Dashboard() {
             <div className="flex items-center justify-between mb-3 px-1">
               <div>
                 <h3 className="font-display font-semibold text-ink-900 text-sm">Mapa en tiempo real</h3>
-                <p className="text-xs text-ink-900/40">Manta, Manabí — actualizado hace unos segundos</p>
+                <p className="text-xs text-ink-900/40">Quito, Pichincha — actualizado hace unos segundos</p>
               </div>
               <a href="#/mapa" className="text-xs font-semibold text-amber-600 whitespace-nowrap">Ver mapa completo ↗</a>
             </div>
