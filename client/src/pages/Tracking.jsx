@@ -33,7 +33,7 @@ export default function Tracking() {
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 16V6a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /><path d="M14 9h4l3 3v4h-7V9Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </span>
           <div className="leading-tight">
-            <p className="font-display font-bold text-[15px] text-ink-900">MANTATRACK</p>
+            <p className="font-display font-bold text-[15px] text-ink-900">CALGUY TRACK</p>
             <p className="text-[10px] tracking-[0.18em] text-ink-900/50 -mt-0.5">LOGISTICS</p>
           </div>
         </div>
@@ -63,7 +63,7 @@ export default function Tracking() {
             </div>
 
             <p className="text-xs text-ink-900/35 text-center mt-6">
-              Este enlace se actualiza automáticamente cada pocos segundos. © 2026 MantaTrack Logistics.
+              Este enlace se actualiza automáticamente cada pocos segundos. © 2026 CalGuy Track Logistics.
             </p>
           </>
         )}
