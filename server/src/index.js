@@ -45,7 +45,7 @@ if (fs.existsSync(clientDist)) {
 } else {
   app.get('/', (req, res) => {
     res.type('text/plain').send(
-      'MantaTrack API activa. No se encontró client/dist — corre "npm run build" en client/ para servir el frontend desde aquí.'
+      'CalGuy Track API activa. No se encontró client/dist — corre "npm run build" en client/ para servir el frontend desde aquí.'
     );
   });
 }
@@ -56,6 +56,6 @@ io.on('connection', (socket) => {
 
 const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => {
-  console.log(`MantaTrack API escuchando en http://localhost:${PORT}`);
+  console.log(`CalGuy Track API escuchando en http://localhost:${PORT}`);
   startSimulation(io, 4000);
 });
