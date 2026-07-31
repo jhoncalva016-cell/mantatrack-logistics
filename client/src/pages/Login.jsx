@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [email, setEmail] = useState('admin@mantatrack.ec');
+  const [email, setEmail] = useState('admin@calguytrack.ec');
   const [password, setPassword] = useState('mantatrack2026');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -41,7 +41,7 @@ export default function Login() {
             </svg>
           </span>
           <div className="leading-tight text-white">
-            <p className="font-display font-bold text-lg tracking-tight">MANTATRACK</p>
+            <p className="font-display font-bold text-lg tracking-tight">CALGUY TRACK</p>
             <p className="text-[11px] tracking-[0.2em] text-white/50 -mt-0.5">LOGISTICS</p>
           </div>
         </div>
