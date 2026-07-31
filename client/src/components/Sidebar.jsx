@@ -42,7 +42,7 @@ export default function Sidebar() {
             end={l.to === '/mapa'}
             className={({ isActive }) =>
               `flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                isActive ? 'bg-amber-500/15 text-white' : 'text-white/55 hover:text-white hover:bg-white/5'
+                isActive ? 'bg-amber-500 text-white shadow-[0_2px_10px_rgba(11,95,255,0.35)]' : 'text-white/55 hover:text-white hover:bg-white/5'
               }`
             }
           >
@@ -55,17 +55,19 @@ export default function Sidebar() {
       <div className="p-3 border-t border-white/10 space-y-3">
         {plan && (
           <div className="bg-white/5 border border-white/10 rounded-xl2 p-3.5 text-white">
-            <p className="text-xs font-semibold">{plan.planName}</p>
+            <div className="flex items-center gap-1.5">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#0B5FFF"><path d="M5 8 2 6l1.5 8h17L22 6l-3 2-4-5-3 4-3-4-4 5Z" /></svg>
+              <p className="text-xs font-semibold">{plan.planName}</p>
+            </div>
             <p className="text-[11px] text-white/50 mt-0.5">Vence el {plan.planRenewsAt}</p>
-            <div className="mt-2.5">
-              <div className="flex items-center justify-between text-[11px] text-white/60 mb-1">
-                <span>Uso del plan</span><span>{plan.planUsagePct}%</span>
-              </div>
-              <div className="h-1.5 rounded-full bg-white/15 overflow-hidden">
-                <div className="h-full bg-amber-500 rounded-full" style={{ width: `${plan.planUsagePct}%` }} />
+            <div className="mt-3 flex items-center gap-3">
+              <PlanRing pct={plan.planUsagePct} />
+              <div>
+                <p className="text-[11px] text-white/60">Uso del plan</p>
+                <p className="text-sm font-semibold">{plan.activeVehicles} de {plan.planMaxVehicles} vehículos</p>
               </div>
             </div>
-            <a href="#/planes" className="mt-3 block text-center w-full text-xs font-semibold bg-white/10 hover:bg-white/20 rounded-lg py-1.5 transition-colors">
+            <a href="#/planes" className="mt-3 block text-center w-full text-xs font-semibold bg-amber-500 hover:bg-amber-600 rounded-lg py-1.5 transition-colors">
               Ver plan
             </a>
           </div>
@@ -97,6 +99,23 @@ function FileIcon() { return <Svg d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2
 function UserIcon() { return <Svg d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 9a7 7 0 0 1 14 0" />; }
 function WrenchIcon() { return <Svg d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 1 5.4-5.4L21 6l-3-3-3.3 3.3Z" />; }
 function GearIcon() { return <Svg d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm8-3a8 8 0 0 0-.2-1.7l2-1.6-2-3.4-2.4 1a8 8 0 0 0-2.9-1.7L14 2h-4l-.5 2.6a8 8 0 0 0-2.9 1.7l-2.4-1-2 3.4 2 1.6A8 8 0 0 0 4 12c0 .6.1 1.2.2 1.7l-2 1.6 2 3.4 2.4-1a8 8 0 0 0 2.9 1.7L10 22h4l.5-2.6a8 8 0 0 0 2.9-1.7l2.4 1 2-3.4-2-1.6c.1-.5.2-1.1.2-1.7Z" />; }
+
+function PlanRing({ pct = 0 }) {
+  const r = 20;
+  const c = 2 * Math.PI * r;
+  const offset = c - (Math.min(100, pct) / 100) * c;
+  return (
+    <svg width="52" height="52" viewBox="0 0 52 52" className="shrink-0">
+      <circle cx="26" cy="26" r={r} fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="5" />
+      <circle
+        cx="26" cy="26" r={r} fill="none" stroke="#0B5FFF" strokeWidth="5"
+        strokeDasharray={c} strokeDashoffset={offset} strokeLinecap="round"
+        transform="rotate(-90 26 26)"
+      />
+      <text x="26" y="30" textAnchor="middle" fontSize="12" fontWeight="700" fill="white">{pct}%</text>
+    </svg>
+  );
+}
 
 function Svg({ d }) {
   return (
