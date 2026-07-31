@@ -80,7 +80,7 @@ router.get('/summary', (req, res) => {
     distanceTodayKm: Math.round(todayStats.distance),
     movingTimeTodayMin: Math.round(todayStats.duration),
     fuelTodayGal: Number(todayStats.fuel.toFixed(1)),
-    center: { lat: -0.9677, lng: -80.7089 },
+    center: { lat: -0.1807, lng: -78.4678 },
   });
 });
 
@@ -100,7 +100,7 @@ router.post('/', (req, res) => {
     driverId = existing ? existing.id : db.prepare('INSERT INTO drivers (company_id, name) VALUES (?, ?)').run(req.user.companyId, driverName).lastInsertRowid;
   }
 
-  const center = { lat: -0.9677, lng: -80.7089 };
+  const center = { lat: -0.1807, lng: -78.4678 };
   const id = db.prepare(`INSERT INTO trucks
     (company_id, code, plate, driver_id, destination, eta, status, lat, lng, route_key, tracking_token, fuel_pct)
     VALUES (?, ?, ?, ?, ?, ?, 'en_ruta', ?, ?, 'ruta1', ?, ?)`)
