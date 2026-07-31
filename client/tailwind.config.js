@@ -14,11 +14,12 @@ export default {
           700: '#22304a',
         },
         amber: {
-          DEFAULT: '#F5A623',
-          50: '#FFF7E8',
-          100: '#FFEBC2',
-          500: '#F5A623',
-          600: '#D98C0F',
+          DEFAULT: '#0B5FFF',
+          50: '#EAF1FF',
+          100: '#D6E4FF',
+          500: '#0B5FFF',
+          600: '#0047CC',
+        },
         },
         ocean: {
           50: '#EEF5FB',
