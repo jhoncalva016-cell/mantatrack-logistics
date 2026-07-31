@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Mapa from './pages/Mapa';
+import Flota from './pages/Flota';
 import Rutas from './pages/Rutas';
 import Alertas from './pages/Alertas';
 import Historial from './pages/Historial';
@@ -27,6 +28,7 @@ export default function App() {
           <Route element={<ProtectedLayout />}>
             <Route path="/flota" element={<Dashboard />} />
             <Route path="/mapa" element={<Mapa />} />
+            <Route path="/lista-flota" element={<Flota />} />
             <Route path="/rutas" element={<Rutas />} />
             <Route path="/alertas" element={<Alertas />} />
             <Route path="/historial" element={<Historial />} />
