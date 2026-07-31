@@ -66,9 +66,9 @@ export default function Sidebar() {
                 <div className="h-full bg-amber-500 rounded-full" style={{ width: `${plan.planUsagePct}%` }} />
               </div>
             </div>
-            <button className="mt-3 w-full text-xs font-semibold bg-white/10 hover:bg-white/20 rounded-lg py-1.5 transition-colors">
+            <a href="#/planes" className="mt-3 block text-center w-full text-xs font-semibold bg-white/10 hover:bg-white/20 rounded-lg py-1.5 transition-colors">
               Ver plan
-            </button>
+            </a>
           </div>
         )}
 
