@@ -20,7 +20,6 @@ export default {
           500: '#0B5FFF',
           600: '#0047CC',
         },
-        },
         ocean: {
           50: '#EEF5FB',
           100: '#DCEBF7',
@@ -41,4 +40,3 @@ export default {
   },
   plugins: [],
 }
-
