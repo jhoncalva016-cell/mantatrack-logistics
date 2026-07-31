@@ -34,6 +34,7 @@ export default function App() {
             <Route path="/conductores" element={<Conductores />} />
             <Route path="/mantenimiento" element={<Mantenimiento />} />
             <Route path="/configuracion" element={<Configuracion />} />
+            <Route path="/planes" element={<Planes />} />
           </Route>
 
           <Route path="/" element={<Navigate to="/flota" replace />} />
