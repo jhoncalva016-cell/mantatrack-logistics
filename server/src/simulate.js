@@ -2,10 +2,10 @@ const db = require('./db');
 const ROUTES = require('./routes-geo');
 
 const DESTS = {
-  ruta1: 'Puerto Manta',
-  ruta2: 'Portoviejo',
-  ruta3: 'Montecristi',
-  ruta4: 'Jaramijó',
+  ruta1: 'Aeropuerto Mariscal Sucre',
+  ruta2: 'Sangolquí',
+  ruta3: 'Cumbayá',
+  ruta4: 'Calderón',
 };
 
 function haversineKm(a, b) {
