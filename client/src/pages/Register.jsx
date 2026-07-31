@@ -34,7 +34,7 @@ export default function Register() {
           <span className="w-11 h-11 rounded-full bg-amber-500 flex items-center justify-center">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 16V6a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /><path d="M14 9h4l3 3v4h-7V9Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </span>
-          <p className="font-display font-bold text-lg">MANTATRACK LOGISTICS</p>
+          <p className="font-display font-bold text-lg">CALGUY TRACK LOGISTICS</p>
         </div>
 
         <div className="bg-white rounded-xl2 shadow-2xl p-8">
