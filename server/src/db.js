@@ -110,6 +110,13 @@ CREATE TABLE IF NOT EXISTS reports (
 );
 `);
 
+// Migración simple para bases de datos ya existentes (agrega columnas nuevas si faltan)
+function tryAddColumn(table, columnDef) {
+  try { db.exec(`ALTER TABLE ${table} ADD COLUMN ${columnDef}`); } catch (err) { /* ya existe */ }
+}
+tryAddColumn('companies', "plan_key TEXT DEFAULT 'profesional'");
+tryAddColumn('companies', 'plan_max_vehicles INTEGER DEFAULT 20');
+
 function seedIfEmpty() {
   const companyCount = db.prepare('SELECT COUNT(*) c FROM companies').get().c;
   if (companyCount > 0) return;
