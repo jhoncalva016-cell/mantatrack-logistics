@@ -74,6 +74,9 @@ export default function Configuracion() {
                   <div className="h-full bg-amber-500 rounded-full" style={{ width: `${settings.company.planUsagePct}%` }} />
                 </div>
               </div>
+              <a href="#/planes" className="block text-center mt-4 text-xs font-semibold bg-white/10 hover:bg-white/20 rounded-lg py-1.5 transition-colors">
+                Cambiar de plan
+              </a>
             </div>
           )}
         </div>
