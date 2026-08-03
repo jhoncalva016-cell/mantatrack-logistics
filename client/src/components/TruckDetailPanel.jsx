@@ -5,12 +5,13 @@ import MapView from './MapView';
 
 const TABS = ['Información', 'Recorrido', 'Estadísticas'];
 
-export default function TruckDetailPanel({ truck, onClose }) {
+export default function TruckDetailPanel({ truck, onClose, onDeleted }) {
   const [tab, setTab] = useState('Información');
   const [history, setHistory] = useState({ rows: [], stats: null });
   const [loadingHistory, setLoadingHistory] = useState(true);
   const [copied, setCopied] = useState(false);
   const [driverCopied, setDriverCopied] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     if (!truck) return;
@@ -37,6 +38,20 @@ export default function TruckDetailPanel({ truck, onClose }) {
     navigator.clipboard.writeText(driverUrl);
     setDriverCopied(true);
     setTimeout(() => setDriverCopied(false), 1500);
+  }
+
+  async function deleteTruck() {
+    if (!window.confirm(`¿Eliminar el camión ${truck.code} (${truck.plate || 'sin placa'}) de forma permanente? Esta acción no se puede deshacer.`)) return;
+    setDeleting(true);
+    try {
+      await api.delete(`/trucks/${truck.id}`);
+      onDeleted?.();
+      onClose?.();
+    } catch (err) {
+      alert(err.response?.data?.error || 'No se pudo eliminar el camión.');
+    } finally {
+      setDeleting(false);
+    }
   }
 
   const avgKmPerGal = history.stats && history.stats.fuel > 0 ? (history.stats.distance / history.stats.fuel).toFixed(1) : '—';
@@ -136,7 +151,22 @@ export default function TruckDetailPanel({ truck, onClose }) {
                 </div>
               )}
 
-              {truck.driverPhone && <a href={'tel:' + truck.driverPhone} className="block text-center w-full bg-ink-900 hover:bg-ink-800 text-white text-sm font-semibold rounded-lg py-3 transition-colors">Contactar conductor</a>}
+              {truck.driverPhone && (
+                
+                  href={'tel:' + truck.driverPhone}
+                  className="block text-center w-full bg-ink-900 hover:bg-ink-800 text-white text-sm font-semibold rounded-lg py-3 transition-colors"
+                >
+                  Contactar conductor
+                </a>
+              )}
+
+              <button
+                onClick={deleteTruck}
+                disabled={deleting}
+                className="block text-center w-full border border-alertred/30 hover:bg-alertred/5 text-alertred text-sm font-semibold rounded-lg py-2.5 transition-colors disabled:opacity-50"
+              >
+                {deleting ? 'Eliminando…' : 'Eliminar camión'}
+              </button>
             </>
           )}
 
