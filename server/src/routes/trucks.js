@@ -11,6 +11,7 @@ const STATUS_LABEL = {
   detenido: 'Detenido',
   entregado: 'Entregado',
   desvio: 'Desvío de ruta',
+  sin_senal: 'Esperando GPS',
 };
 
 function serializeTruck(t) {
@@ -19,6 +20,7 @@ function serializeTruck(t) {
     id: t.id,
     code: t.code,
     plate: t.plate,
+    model: t.model,
     driver: driver ? driver.name : '—',
     driverPhone: driver ? driver.phone : null,
     destination: t.destination,
@@ -29,6 +31,7 @@ function serializeTruck(t) {
     lng: t.lng,
     speedKmh: Math.round(t.speed_kmh),
     fuelPct: Math.round(t.fuel_pct),
+    trackingMode: t.tracking_mode || 'simulado',
     trackingToken: t.tracking_token,
     updatedAt: t.updated_at,
   };
@@ -60,7 +63,6 @@ router.get('/summary', (req, res) => {
       trips: acc.trips + 1,
     }), todayStats);
   }
-  // Si aún no hay viajes completados hoy, se muestra un estimado a partir del historial reciente
   if (!todayStats.trips && truckIds.length) {
     const recent = db.prepare(`SELECT * FROM route_history WHERE truck_id IN (${truckIds.map(() => '?').join(',')}) ORDER BY date DESC LIMIT 6`).all(...truckIds);
     todayStats = recent.reduce((acc, r) => ({
@@ -91,20 +93,28 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const { code, plate, driverName, destination, eta } = req.body || {};
+  const { code, plate, model, driverName, driverPhone, destination, eta, trackingMode } = req.body || {};
   if (!code) return res.status(400).json({ error: 'El código del camión es requerido.' });
 
   let driverId = null;
   if (driverName) {
     const existing = db.prepare('SELECT id FROM drivers WHERE company_id = ? AND name = ?').get(req.user.companyId, driverName);
-    driverId = existing ? existing.id : db.prepare('INSERT INTO drivers (company_id, name) VALUES (?, ?)').run(req.user.companyId, driverName).lastInsertRowid;
+    if (existing) {
+      driverId = existing.id;
+      if (driverPhone) db.prepare('UPDATE drivers SET phone = ? WHERE id = ?').run(driverPhone, driverId);
+    } else {
+      driverId = db.prepare('INSERT INTO drivers (company_id, name, phone) VALUES (?, ?, ?)').run(req.user.companyId, driverName, driverPhone || null).lastInsertRowid;
+    }
   }
 
+  const mode = trackingMode === 'real' ? 'real' : 'simulado';
   const center = { lat: -0.1807, lng: -78.4678 };
+  const initialStatus = mode === 'real' ? 'sin_senal' : 'en_ruta';
+
   const id = db.prepare(`INSERT INTO trucks
-    (company_id, code, plate, driver_id, destination, eta, status, lat, lng, route_key, tracking_token, fuel_pct)
-    VALUES (?, ?, ?, ?, ?, ?, 'en_ruta', ?, ?, 'ruta1', ?, ?)`)
-    .run(req.user.companyId, code, plate || null, driverId, destination || null, eta || null, center.lat, center.lng, nanoid(12), 80).lastInsertRowid;
+    (company_id, code, plate, model, driver_id, destination, eta, status, lat, lng, route_key, tracking_token, fuel_pct, tracking_mode)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'ruta1', ?, ?, ?)`)
+    .run(req.user.companyId, code, plate || null, model || null, driverId, destination || null, eta || null, initialStatus, center.lat, center.lng, nanoid(12), 80, mode).lastInsertRowid;
 
   const t = db.prepare('SELECT * FROM trucks WHERE id = ?').get(id);
   res.status(201).json(serializeTruck(t));
@@ -114,7 +124,7 @@ router.patch('/:id', (req, res) => {
   const t = db.prepare('SELECT * FROM trucks WHERE id = ? AND company_id = ?').get(req.params.id, req.user.companyId);
   if (!t) return res.status(404).json({ error: 'Camión no encontrado.' });
 
-  const fields = ['destination', 'eta', 'status', 'plate'];
+  const fields = ['destination', 'eta', 'status', 'plate', 'model'];
   const updates = [];
   const values = [];
   for (const f of fields) {
