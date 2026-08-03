@@ -10,6 +10,7 @@ export default function TruckDetailPanel({ truck, onClose }) {
   const [history, setHistory] = useState({ rows: [], stats: null });
   const [loadingHistory, setLoadingHistory] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [driverCopied, setDriverCopied] = useState(false);
 
   useEffect(() => {
     if (!truck) return;
@@ -24,11 +25,18 @@ export default function TruckDetailPanel({ truck, onClose }) {
   const meta = statusMeta(truck.status);
   const isMoving = truck.status === 'en_ruta' || truck.status === 'desvio';
   const trackingUrl = `${window.location.origin}${window.location.pathname}#/seguimiento/${truck.trackingToken}`;
+  const driverUrl = `${window.location.origin}${window.location.pathname}#/conductor/${truck.trackingToken}`;
 
   function shareLocation() {
     navigator.clipboard.writeText(trackingUrl);
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
+  }
+
+  function shareDriverLink() {
+    navigator.clipboard.writeText(driverUrl);
+    setDriverCopied(true);
+    setTimeout(() => setDriverCopied(false), 1500);
   }
 
   const avgKmPerGal = history.stats && history.stats.fuel > 0 ? (history.stats.distance / history.stats.fuel).toFixed(1) : '—';
@@ -49,7 +57,12 @@ export default function TruckDetailPanel({ truck, onClose }) {
             <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${meta.bg} ${meta.text}`}>{meta.label}</span>
           </div>
           <p className="text-sm text-white/60 mt-1">Conductor: {truck.driver}</p>
-          {truck.plate && <p className="text-sm text-white/60">Placa: {truck.plate}</p>}
+          {truck.plate && <p className="text-sm text-white/60">Placa: {truck.plate}{truck.model ? ` · ${truck.model}` : ''}</p>}
+          {truck.trackingMode === 'real' && (
+            <span className="inline-block mt-1.5 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-alertgreen/20 text-alertgreen">
+              GPS real
+            </span>
+          )}
         </div>
 
         <div className="flex border-b border-black/5 bg-white sticky top-0 z-10">
@@ -108,8 +121,23 @@ export default function TruckDetailPanel({ truck, onClose }) {
                 </div>
               </div>
 
+              {truck.trackingMode === 'real' && (
+                <div className="bg-white rounded-xl2 shadow-card p-4">
+                  <h3 className="text-sm font-semibold text-ink-900 mb-2">Enlace para el conductor</h3>
+                  <p className="text-xs text-ink-900/50 mb-3">
+                    Este camión usa GPS real. Envía este enlace al celular del conductor para que active el rastreo.
+                  </p>
+                  <button
+                    onClick={shareDriverLink}
+                    className="w-full border border-black/10 hover:bg-black/[0.03] text-ink-900 text-sm font-semibold rounded-lg py-2.5 transition-colors"
+                  >
+                    {driverCopied ? 'Enlace copiado ✓' : 'Copiar enlace del conductor'}
+                  </button>
+                </div>
+              )}
+
               {truck.driverPhone && (
-                <a
+                
                   href={`tel:${truck.driverPhone}`}
                   className="block text-center w-full bg-ink-900 hover:bg-ink-800 text-white text-sm font-semibold rounded-lg py-3 transition-colors"
                 >
