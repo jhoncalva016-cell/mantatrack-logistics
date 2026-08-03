@@ -15,6 +15,7 @@ import Mantenimiento from './pages/Mantenimiento';
 import Configuracion from './pages/Configuracion';
 import Planes from './pages/Planes';
 import Tracking from './pages/Tracking';
+import DriverTracking from './pages/DriverTracking';
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/registro" element={<Register />} />
           <Route path="/seguimiento/:token" element={<Tracking />} />
+          <Route path="/conductor/:token" element={<DriverTracking />} />
 
           <Route element={<ProtectedLayout />}>
             <Route path="/flota" element={<Dashboard />} />
