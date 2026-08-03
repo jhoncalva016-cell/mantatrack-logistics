@@ -26,6 +26,7 @@ function tick(io) {
 
   for (const t of trucks) {
     if (t.status === 'entregado') continue;
+    if (t.tracking_mode === 'real') continue; // este camión envía su propia ubicación GPS real
 
     const pts = ROUTES[t.route_key];
     if (!pts) continue;
