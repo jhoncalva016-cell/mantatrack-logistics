@@ -3,6 +3,7 @@ export const STATUS_META = {
   detenido: { label: 'Detenido', text: 'text-alertamber', bg: 'bg-alertamber/10', dot: '#E8A020' },
   entregado: { label: 'Entregado', text: 'text-ocean-500', bg: 'bg-ocean-500/10', dot: '#1D6FA5' },
   desvio: { label: 'Desvío de ruta', text: 'text-alertred', bg: 'bg-alertred/10', dot: '#DC3B33' },
+  sin_senal: { label: 'Esperando GPS', text: 'text-ink-900/50', bg: 'bg-ink-900/5', dot: '#94A3B8' },
 };
 
 export function statusMeta(status) {
