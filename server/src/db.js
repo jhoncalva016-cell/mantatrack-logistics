@@ -59,6 +59,7 @@ CREATE TABLE IF NOT EXISTS trucks (
   company_id INTEGER NOT NULL REFERENCES companies(id),
   code TEXT NOT NULL,
   plate TEXT,
+  model TEXT,
   driver_id INTEGER REFERENCES drivers(id),
   destination TEXT,
   eta TEXT,
@@ -68,6 +69,7 @@ CREATE TABLE IF NOT EXISTS trucks (
   route_index INTEGER DEFAULT 0,
   route_dir INTEGER DEFAULT 1,
   route_key TEXT DEFAULT 'ruta1',
+  tracking_mode TEXT DEFAULT 'simulado',
   speed_kmh REAL DEFAULT 0,
   fuel_pct REAL DEFAULT 100,
   stopped_since TEXT,
@@ -116,6 +118,8 @@ function tryAddColumn(table, columnDef) {
 }
 tryAddColumn('companies', "plan_key TEXT DEFAULT 'profesional'");
 tryAddColumn('companies', 'plan_max_vehicles INTEGER DEFAULT 20');
+tryAddColumn('trucks', 'model TEXT');
+tryAddColumn('trucks', "tracking_mode TEXT DEFAULT 'simulado'");
 
 function seedIfEmpty() {
   const companyCount = db.prepare('SELECT COUNT(*) c FROM companies').get().c;
