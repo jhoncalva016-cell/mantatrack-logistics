@@ -33,7 +33,7 @@ export default function Sidebar() {
         <Logo size={32} />
         <div className="leading-tight">
           <p className="font-display font-bold text-[14px] tracking-tight text-white">CALGUY TRACK</p>
-          <p className="text-[9px] tracking-[0.18em] text-amber-500 -mt-0.5">LOGISTICS</p>
+          <p className="text-[9px] tracking-[0.18em] -mt-0.5" style={{ color: '#F5A623' }}>LOGISTICS</p>
         </div>
       </div>
 
