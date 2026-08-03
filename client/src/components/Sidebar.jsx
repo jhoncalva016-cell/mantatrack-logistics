@@ -113,7 +113,7 @@ function FileIcon() { return <Svg d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2
 function UserIcon() { return <Svg d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 9a7 7 0 0 1 14 0" />; }
 function WrenchIcon() { return <Svg d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 1 5.4-5.4L21 6l-3-3-3.3 3.3Z" />; }
 function GearIcon() { return <Svg d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm8-3a8 8 0 0 0-.2-1.7l2-1.6-2-3.4-2.4 1a8 8 0 0 0-2.9-1.7L14 2h-4l-.5 2.6a8 8 0 0 0-2.9 1.7l-2.4-1-2 3.4 2 1.6A8 8 0 0 0 4 12c0 .6.1 1.2.2 1.7l-2 1.6 2 3.4 2.4-1a8 8 0 0 0 2.9 1.7L10 22h4l.5-2.6a8 8 0 0 0 2.9-1.7l2.4 1 2-3.4-2-1.6c.1-.5.2-1.1.2-1.7Z" />; }
-function CrownIcon() { return <svg width="14" height="14" viewBox="0 0 24 24" fill="#0B5FFF"><path d="M5 8 2 6l1.5 8h17L22 6l-3 2-4-5-3 4-3-4-4 5Z" /></svg>; }
+function CrownIcon() { return <svg width="14" height="14" viewBox="0 0 24 24" fill="#F5A623"><path d="M5 8 2 6l1.5 8h17L22 6l-3 2-4-5-3 4-3-4-4 5Z" /></svg>; }
 
 function PlanRing({ pct = 0 }) {
   const r = 20;
