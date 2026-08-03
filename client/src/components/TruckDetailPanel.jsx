@@ -138,7 +138,7 @@ export default function TruckDetailPanel({ truck, onClose }) {
 
               {truck.driverPhone && (
                 
-                  href={`tel:${truck.driverPhone}`}
+                  href={'tel:' + truck.driverPhone}
                   className="block text-center w-full bg-ink-900 hover:bg-ink-800 text-white text-sm font-semibold rounded-lg py-3 transition-colors"
                 >
                   Contactar conductor
