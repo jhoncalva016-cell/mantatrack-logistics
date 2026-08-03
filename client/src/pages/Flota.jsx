@@ -130,7 +130,7 @@ export default function Flota() {
 
       {!loading && <FleetTable trucks={trucks} onSelect={setDetailTruck} selectedId={detailTruck?.id} />}
 
-      <TruckDetailPanel truck={detailTruck} onClose={() => setDetailTruck(null)} />
+      <TruckDetailPanel truck={detailTruck} onClose={() => setDetailTruck(null)} onDeleted={refresh} />
     </div>
   );
 }
